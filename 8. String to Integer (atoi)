@@ -1,0 +1,79 @@
+class Solution {
+    public int myAtoi(String str) {
+        long out = 0;
+        int i = 0;
+        int len = str.length();
+        char firstNotSpace = ' ';
+        boolean positive = true;
+        int digit = 0;
+        
+        while ( i < len )
+        {
+                             
+            if (str.charAt(i) != ' ' && firstNotSpace == ' ')
+            {
+                if (str.charAt(i) == '+')
+                {
+                    firstNotSpace = '+';
+                    positive = true;
+                    i++;
+                }
+                else if  (str.charAt(i) == '-')
+                {
+                    firstNotSpace = '-';
+                    positive = false;
+                    i++;
+                }
+                else if (str.charAt(i) >= '0' && str.charAt(i) <= '9')
+                {
+                    digit = Character.getNumericValue(str.charAt(i));
+                    out = out * 10 + digit;
+                    firstNotSpace = str.charAt(i);
+                    i++;
+                    if ((out > Integer.MAX_VALUE) && positive == true)
+                    return Integer.MAX_VALUE;
+                    if ((-out < Integer.MIN_VALUE) && positive == false)
+                    return Integer.MIN_VALUE;
+                }
+                else
+                {
+                    return 0;
+                }
+            }
+            else if (str.charAt(i) == ' '  && firstNotSpace == ' ')
+            {
+                i++;
+                continue;
+            }
+            else if (str.charAt(i) >= '0' && str.charAt(i) <= '9')
+            {
+                 digit = Character.getNumericValue(str.charAt(i));
+                 out = out * 10 + digit;
+                 i++;
+                 if ((out > Integer.MAX_VALUE) && positive == true)
+                 return Integer.MAX_VALUE;
+                 if ((-out < Integer.MIN_VALUE) && positive == false)
+                 return Integer.MIN_VALUE;
+
+            }
+            else if (firstNotSpace != ' ')
+            {
+                break;
+            } 
+        }
+        
+        if (positive == true)
+        {
+
+            return (int)out;
+
+        }
+   
+        else 
+        {
+   
+            return (int)-out;
+
+        }
+    }
+}
