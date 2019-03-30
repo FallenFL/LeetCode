@@ -1,0 +1,44 @@
+public class Solution {
+	StringBuffer ans = new StringBuffer();
+	public String getStrings(long weight)
+	{
+		long[] a = new long[26];
+		a[0] = 1;
+		for (int i = 1; i < 20; i++)
+		{
+			a[i] = a[i-1] *(i+1) + (i+1);
+		}
+		StringBuffer curr = new StringBuffer();
+		this.dfs(weight, a, curr);
+		return ans.toString();
+		
+	}
+	
+	private void dfs(long weight, long[] a, StringBuffer curr)
+	{
+		if (curr.length() > ans.length() && ans.length() != 0) return;
+		else if (weight == 0)
+		{
+			if (curr.length() < ans.length() || ans.length() == 0) 
+			{ 
+				ans = curr;
+			}
+			return;
+		}
+		
+		else if (weight < 0)
+		{
+			return;
+		}
+		
+		else for (int i = 19; i >= 0; --i)
+		{
+			curr.append((char)('A' + (i - 0)));
+			weight -= a[i];
+			this.dfs (weight, a, curr);
+			weight += a[i];
+			curr.deleteCharAt(curr.length()-1);
+		}
+	}
+	
+}
