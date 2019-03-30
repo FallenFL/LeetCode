@@ -1,0 +1,25 @@
+class Solution {
+    public int minDistance(String word1, String word2) {
+        char[] c1 = word1.toCharArray();
+        char[] c2 = word2.toCharArray();
+        int[][] f = new int[c1.length+1][c2.length+1];//f[0][0] means the empty substring, f[i][j] means the least steps for first i letters of c1 and first j letters of c2 to match
+        for (int[] row: f)
+        Arrays.fill(row, Math.max(c1.length,c2.length));
+        for (int i = 0; i <= c1.length; i ++)
+            f[i][0] = i;
+        for (int i = 0; i <= c2.length; ++ i)
+            f[0][i] = i;
+        for (int i = 1; i <= c1.length; ++ i)
+            for (int j = 1; j <= c2.length; ++ j)
+            {
+                if (c1[i-1] == c2[j-1]) f[i][j] = Math.min(f[i-1][j-1],f[i][j]);
+                else
+                {
+                        f[i][j] = f[i-1][j-1] + 1; // change it
+                        f[i][j] = Math.min(f[i-1][j] + 1, f[i][j]);//delete it
+                        f[i][j] = Math.min(f[i][j-1] + 1, f[i][j]);//insert it
+                }
+            }
+        return f[c1.length][c2.length];
+    }
+}
