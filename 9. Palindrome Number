@@ -1,0 +1,27 @@
+class Solution {
+    public boolean isPalindrome(int x) {
+        int len = 0;
+        if (x == 0) return true;
+        if (x < 0) return false;
+        int pop = 0;
+        int a[] = new int [10000];
+        int i = 0;
+        while (x != 0)
+        {
+            a[i] = x % 10;
+            x = x / 10;
+            i ++;
+        }
+        len = i;
+        int left = 0; int right = len - 1;
+        while (left <= right)
+        {
+            if (a[left] != a[right]) return false;
+            left ++;
+            right --;
+        }
+        
+        return true;
+            
+    }
+}
