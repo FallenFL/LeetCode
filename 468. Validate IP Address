@@ -1,0 +1,67 @@
+class Solution {
+    public String validIPAddress(String IP) {
+        if (checkv6(IP)) return ("IPv6");
+        if (checkv4(IP)) return ("IPv4");
+        return ("Neither");
+    }
+    
+   boolean checkv4(String IP){
+      StringBuilder sb = new StringBuilder(IP);
+      String[] st = IP.split("\\.");
+      int count = 0;
+      for (char c : IP.toCharArray())
+      {
+          if (c == ('.')) count ++; 
+      }
+      if (count != 3) return false;
+      if (st.length != 4) return false;
+      for (String s : st)
+      {
+          if (s.length() > 3 || s.length() < 1) return false;
+          if (tryParseInt(s)) 
+          {  
+            int num = Integer.parseInt(s);
+            if (num > 255 || num < 0) return false;
+            int digit1 = s.length();
+            int temp = num;
+            int digit2 = 0;
+            while (temp > 0)
+            {
+                temp /= 10;
+                digit2 ++;
+            }
+            if (num == 0) digit2 = 1;
+            if (digit1 != digit2) return false;
+          }
+          else return false;
+      }
+      return true;
+   }
+    
+   boolean checkv6(String IP){
+      String[] st = IP.split("\\:");
+      int count = 0;
+      for (char c : IP.toCharArray())
+      {
+          if (c == (':')) count ++; 
+      }
+      if (count != 7) return false;
+      if (st.length != 8) return false;
+      for (String s : st)
+      {
+          if (s.length() > 4 || s.length() < 1) return false;
+          for (char c : s.toCharArray())
+              if ((c - 'g' >= 0 && c - 'z' <= 0) || (c - 'G' >= 0 && c- 'Z' <= 0)||(c == '-')) return false;
+      }
+      return true;
+   }
+    
+    boolean tryParseInt(String value) {  
+     try {  
+         Integer.parseInt(value);  
+         return true;  
+      } catch (NumberFormatException e) {  
+         return false;  
+      }  
+}
+}
