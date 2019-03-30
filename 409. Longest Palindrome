@@ -1,0 +1,27 @@
+class Solution {
+    public int longestPalindrome(String s) {
+        if (s.length() == 0) return 0;
+        int ans = 0;
+        Map <Character, Integer> map = new HashMap<>();
+        for (int i = 0; i < s.length(); i++)
+        {
+            char c = s.charAt(i);
+            if (map.containsKey(c))
+            {
+                if (map.get(c) == 0) map.put(c,1);
+                else 
+                {
+                    ans += 2;
+                    map.put(c,0);
+                }
+            }
+            else
+            {
+                map.put(c,1);
+            }
+        }
+        if (ans < s.length() && ans % 2 == 0)
+        return ans + 1;
+        else return ans;
+    }
+}
