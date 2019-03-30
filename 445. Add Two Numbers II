@@ -1,0 +1,93 @@
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+     public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
+        
+        int carry = 0;
+        int sum = 0;
+        ListNode headList = new ListNode(0);
+        ListNode resList = headList;
+        l1 = stackreverseNode(l1);
+        l2 = stackreverseNode(l2);
+        while ((l1 != null) || (l2 != null))
+        {
+            if ((l1 != null) && (l2 != null))
+            {
+                sum = l1.val + l2.val + carry;
+                resList.next = new ListNode(0);
+                resList = resList.next;
+                resList.val = sum % 10;
+                carry = sum / 10;
+                l1 = l1.next;
+                l2 = l2.next;
+            }
+            else if ((l1 != null) && (l2 == null))
+            {
+                l2 = new ListNode(0);
+                sum = l1.val + l2.val + carry;
+                resList.next = new ListNode(0);
+                resList = resList.next;
+                resList.val = sum % 10;
+                carry = sum / 10;
+                l1 = l1.next;
+                l2 = l2.next;
+            }
+            else if ((l1 == null) && (l2 != null))
+            {
+                l1 = new ListNode(0);
+                sum = l1.val + l2.val + carry;
+                resList.next = new ListNode(0);
+                resList = resList.next;
+                resList.val = sum % 10;
+                carry = sum / 10;
+                l1 = l1.next;
+                l2 = l2.next;
+            }
+        }
+        if (carry == 1){
+            resList.next = new ListNode(0);
+            resList = resList.next;
+            resList.val = 1; 
+        } 
+        return stackreverseNode(headList.next);
+    }
+    
+    public ListNode reverseNode(ListNode pNode)
+    {
+        ListNode pPre = null;
+        ListNode pNext = null;
+        while (pNode != null)
+        {
+            pNext = pNode.next;
+            pNode.next = pPre;
+            pPre = pNode;
+            pNode = pNext;
+        }
+        return pPre;
+    }
+    
+    public ListNode stackreverseNode(ListNode pNode)
+    {
+        ListNode pPre = null;
+        ListNode pNext = null;
+        ListNode newHead = null;
+        if (pNode != null && pNode.next != null)
+        {
+            pNext = pNode.next;
+            newHead = stackreverseNode(pNext);
+            pNext.next = pNode;
+            if (pNode.next == pNext) pNode.next = null;
+            return newHead;
+        }
+        else 
+        {
+            return pNode;
+        }
+    }
+}
