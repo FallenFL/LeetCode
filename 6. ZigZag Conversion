@@ -1,0 +1,42 @@
+class Solution {
+    public String convert(String s, int numRows) {
+    
+        int x = 0;
+        int gapSum = Math.max(numRows - 2 , 0);
+        int gap = 0;
+        int letterPut = 0;
+        int len = s.length();
+        char f[][] = new char[len][len];
+        String finalS = "";
+        if (numRows <= 1 || len == 0) return s;
+        while (letterPut < len)
+        {
+             if (x % (numRows-1) == 0)
+             {
+                 for (int i = 0; i<numRows; i++)
+                 {
+                     f[x][i] = s.charAt(letterPut);
+                     letterPut ++;
+                     if (i == numRows - 1) x++;
+                     if (letterPut == len) break;
+                 }
+                 gap = 1;
+             }
+            else
+            {
+                f[x][numRows - gap - 1] = s.charAt(letterPut);
+                gap ++;
+                x ++;
+                letterPut ++;
+                if (letterPut == len) break;
+            }        
+        }
+        for (int i = 0; i < len; i++)
+            for (int j = 0; j < len; j++)
+            {
+                if (f[j][i] != '\0') 
+                    finalS += f[j][i];
+            }
+        return finalS;
+    }
+}
