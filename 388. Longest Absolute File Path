@@ -1,0 +1,20 @@
+class Solution {
+    public int lengthLongestPath(String input) {
+        String[] arr = input.split("\n");
+        int[] lens = new int[arr.length];
+        int ans = 0;
+        for (String s : arr)
+        {
+            int lastT = s.lastIndexOf("\t");
+            int level = lastT + 1;
+            int parentLen = level == 0? 0 : lens[level - 1] + 1;
+            int currLen = s.length() - lastT - 1;
+            lens[level] = parentLen + currLen;
+            if (s.contains("."))
+            {
+                ans = Math.max(ans, lens[level]);
+            }
+        }
+        return ans;
+    }
+}
