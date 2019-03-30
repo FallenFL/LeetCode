@@ -1,0 +1,40 @@
+class Solution {
+    public int maximalRectangle(char[][] matrix) {
+        if (matrix.length == 0) return 0;
+        int n = matrix.length;
+        int m = matrix[0].length;
+        int ans = 0;
+        int res = 0;
+        int[][] f = new int[matrix.length][matrix[0].length];
+        for (int[] rows : f)
+            Arrays.fill(rows,-1);
+        for (int i = 0; i < n; i++)
+            for (int j = 0; j < m; j++)
+            {
+                if (f[i][j] == -1) f[i][j] = find(i,j,matrix);
+                int Len = f[i][j];
+                res = Len;
+                int row = i;
+                while (row != n && f[row][j] != 0)
+                {
+                    if (f[row][j] == -1) f[row][j] = find(row,j,matrix);
+                    Len = Math.min(f[row][j], Len);
+                    res = Math.max(res,(row - i + 1) * Len);
+                    row ++;
+                }
+                ans = Math.max(res,ans);
+            }
+        return ans;
+    } 
+        public int find(int i, int j, char[][] matrix)
+        {
+            int res = 0;
+            while (matrix[i][j] == '1')
+            {
+                res ++;
+                j ++;
+                if (j == matrix[0].length) return res;
+            }
+            return res;
+        }
+}
