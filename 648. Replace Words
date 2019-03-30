@@ -1,0 +1,36 @@
+class Solution {
+    public String replaceWords(List<String> dict, String sentence) {
+        TrieNode trie = new TrieNode();
+        for (String s  : dict)
+        {
+            TrieNode cur = trie;
+            for (char c : s.toCharArray()){
+                if (cur.children[c - 'a'] == null) cur.children[c - 'a']  = new TrieNode();
+                cur = cur.children[c - 'a'];
+            }
+            cur.word = s;
+        }
+        
+        StringBuilder ans = new StringBuilder();
+        
+        for (String s : sentence.split("\\s+")){
+            if (ans.length() > 0) ans.append(" ");
+            TrieNode cur = trie;
+            for (char c : s.toCharArray())
+            {
+                if (cur.children[c - 'a'] == null || cur.word != null) break;
+                cur = cur.children[c - 'a'];
+            }
+            ans.append(cur.word == null? s : cur.word);
+        }
+        return ans.toString();
+    }
+    
+    class TrieNode{
+        TrieNode[] children;
+        String word;
+        TrieNode(){
+            children = new TrieNode[26];
+        }
+    }
+}
