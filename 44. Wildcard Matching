@@ -1,0 +1,42 @@
+class Solution {
+    public boolean isMatch(String s, String p) {
+         boolean[][] f = new boolean[p.length() + 1][s.length() + 1];
+         char[] schar = s.toCharArray();
+         char[] pchar = p.toCharArray();
+        f[0][0] = true;
+        if (s.length() > 0 && p.length() > 0)
+        if (schar[0] == pchar[0] || pchar[0] == '?' || pchar[0] == '*') f[1][1] = true;
+        for (int i = 1; i <= schar.length; i ++)
+        {
+            f[0][i] = false;//p's first empty substring
+        }
+        for (int i = 1; i <= pchar.length; i ++)
+        {
+            if (pchar[i-1] == '*')
+                f[i][0] = f[i-1][0];
+            else f[i][0] = false;
+        }
+         for (int i = 1; i <= pchar.length; i ++)
+             for (int j = 1; j <= schar.length; j ++)
+             {
+                 if (pchar[i - 1] == schar[j - 1])
+                 {
+                     f[i][j] = f[i-1][j-1];
+                 }
+                 else if (pchar[i - 1] == '*')
+                 {
+                     if (f[i-1][j]) f[i][j] = true;//"*" as empty
+                     if (f[i][j-1]) f[i][j] = true;//"*" as sequence
+                 }
+                 else if (pchar[i - 1] == '?')
+                 {
+                     f[i][j] = f[i-1][j-1];
+                 }
+                 else
+                 {
+                     f[i][j] = false;
+                 }
+             }
+        return (f[p.length()][s.length()]);  
+    }
+}
