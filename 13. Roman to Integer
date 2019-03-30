@@ -1,0 +1,31 @@
+class Solution {
+    public int romanToInt(String s) {
+        int[] split = new int[4];
+        int pop = 0;
+        int len = 0;
+        int flag = 3;
+        String[] one = {"","I","II","III","IV","V","VI","VII","VIII","IX"};
+        String[] ten = {"","X","XX","XXX","XL","L","LX","LXX","LXXX","XC"};
+        String[] hun = {"","C","CC","CCC","CD","D","DC","DCC","DCCC","CM"};
+        String[] tho = {"","M","MM","MMM"};
+        String[] ans = new String [4000];
+        for (int i = 0; i <= 3999; i++)
+        {
+            int num = i;
+            flag = 3;
+            while (num != 0)
+            {
+                pop = num % 10;
+                split[flag] = pop;
+                flag --;
+                num = num / 10;
+            }
+            ans[i] = tho[split[0]]+hun[split[1]]+ten[split[2]]+one[split[3]];
+        }
+        for (int i = 0; i<= 3999; i++)
+        {
+            if (ans[i].equals(s)) return i;
+        }
+        return 0;
+    }
+}
