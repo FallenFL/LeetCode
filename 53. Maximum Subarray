@@ -1,0 +1,32 @@
+class Solution {
+    public int maxSubArray(int[] nums) {
+        return helper(nums,0,nums.length - 1);
+    }
+    
+    public int helper(int[] nums, int start, int end)//return the max value of given array
+    {
+        int currMax = nums[start];
+        int currSum = 0;
+        if (start > end) return 0;
+        if (start == end) return nums[start];
+        int mid = (start + end) / 2;
+        
+        int leftMax = nums[mid];
+        int rightMax = nums[mid + 1];
+        for (int i = mid; i >= start; i --)
+        {
+            currSum += nums[i];
+            leftMax = Math.max(leftMax, currSum);
+        }
+        currSum = 0;
+        for (int i = mid + 1; i <= end; ++ i)
+        {
+            currSum += nums[i];
+            rightMax = Math.max(rightMax, currSum);
+        }
+        int left = helper(nums,start,mid);
+        int right = helper(nums,mid+1,end);
+        int temp = Math.max(left,right);
+        return Math.max(temp, rightMax + leftMax);
+    } 
+}
